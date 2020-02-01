@@ -148,8 +148,9 @@ void AScrapConveyour::DropBaseObjectFromPool()
 		//Switch its mesh
 		if (m_scrapMeshes.Num() > 0)
 		{
-			scrap->m_Mesh->SetSkeletalMesh(m_scrapMeshes[FMath::RandRange(0, m_scrapMeshes.Num() - 1)].m_mesh);
-			scrap->m_Mesh->SetPhysicsAsset(m_scrapMeshes[FMath::RandRange(0, m_scrapMeshes.Num() - 1)].m_meshPhysics);
+			int index = FMath::RandRange(0, m_scrapMeshes.Num() - 1);
+			scrap->m_Mesh->SetSkeletalMesh(m_scrapMeshes[index].m_mesh);
+			scrap->m_Mesh->SetPhysicsAsset(m_scrapMeshes[index].m_meshPhysics);
 		}
 		//Enable mesh, collision and physics
 		scrap->EnableObject();
