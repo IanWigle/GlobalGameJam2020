@@ -4,27 +4,29 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "BaseObject.generated.h"
+#include "StatueStand.generated.h"
 
 UCLASS()
-class GLOBALGAMEJAM2020_API ABaseObject : public AActor
+class GLOBALGAMEJAM2020_API AStatueStand : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ABaseObject();
+	AStatueStand();
 
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UStaticMeshComponent* m_Mesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		class USkeletalMeshComponent* m_Mesh;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		bool m_InStand = false;
+		class UBoxComponent* m_BuildArea;
+
 };
