@@ -66,6 +66,7 @@ void ABaseObject::Tick(float DeltaTime)
 
 void ABaseObject::DisableObject()
 {
+	//m_Mesh->SetCollisionProfileName("NoCollision");
 	m_Mesh->SetSimulatePhysics(false);
 	m_Mesh->SetGenerateOverlapEvents(false);
 	m_Mesh->SetHiddenInGame(true, true);
@@ -73,6 +74,7 @@ void ABaseObject::DisableObject()
 
 void ABaseObject::EnableObject()
 {
+	//m_Mesh->SetCollisionProfileName("PhysicsActor");
 	m_Mesh->SetSimulatePhysics(true);
 	m_Mesh->SetGenerateOverlapEvents(true);
 	RootComponent->SetHiddenInGame(false, true);
