@@ -5,6 +5,19 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "ScrapConveyour.generated.h"
+//
+
+USTRUCT()
+struct FScrapMeshData
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere)
+		class USkeletalMesh* m_mesh;
+	UPROPERTY(EditAnywhere)
+		class UPhysicsAsset* m_meshPhysics;
+};
 
 UCLASS()
 class GLOBALGAMEJAM2020_API AScrapConveyour : public AActor
@@ -16,6 +29,10 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	UFUNCTION()
 		void OnFurnaceOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	UFUNCTION()
+		void OnConveyourOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	UFUNCTION()
+		void OnConveyourOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 	void AddBaseObjectToPool(class ABaseObject* a_scrap);
 	void DropBaseObjectFromPool();
 protected:
@@ -26,8 +43,11 @@ protected:
 	UPROPERTY(EditAnywhere)
 	float m_dropDelay;
 	UPROPERTY(EditAnywhere)
+	float m_conveyourSpeed;
+	UPROPERTY(EditAnywhere)
 	FName m_scrapMeshesFolder;
-	TArray<class USkeletalMesh*> m_scrapMeshes;
+	UPROPERTY(EditAnywhere)
+	TArray<FScrapMeshData> m_scrapMeshes;
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class ABaseObject> m_scrapTemplate;
 	UPROPERTY(EditAnywhere)
@@ -48,4 +68,7 @@ protected:
 		class USkeletalMeshComponent* m_conveyourMesh;
 
 	FTimerHandle m_scrapSpawnTimer;
+
+	TArray<class ABaseObject*> m_scrapOnConveyour;
+	TArray<class ABaseObject*> m_scrapOnConveyourToRemove;
 };
