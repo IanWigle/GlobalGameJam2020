@@ -15,16 +15,25 @@ public:
 	AScrapConveyour();
 	virtual void Tick(float DeltaTime) override;
 	UFUNCTION()
-		void AScrapConveyour::OnFurnaceOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-
+		void OnFurnaceOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	void AddBaseObjectToPool();
+	void DropBaseObjectFromPool();
 protected:
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditEnywhere);
+	int m_poolSize;
+	UPROPERTY(EditEnywhere);
+	float m_dropDelay;
+	UPROPERTY(EditEnywhere);
 	FName m_scrapMeshesFolder;
-	TSubclassOf<AActor> m_scrapTemplate;
 	TArray<class USkeletalMesh*> m_scrapMeshes;
-	TArray<AActor*> m_scrapPool;
+	TSubclassOf<class ABaseObject> m_scrapTemplate;
+	UPROPERTY(EditEnywhere);
+	TArray<class ABaseObject*> m_scrapPool;
+	UPROPERTY(EditEnywhere);
 	TMap<FName, class UBoxComponent*> m_colliders;
-	TMap<FName, class UStaticMeshComponent*> m_staticMeshes;
-	TMap<FName, class USkeletalMeshComponent*> m_staticMeshes;
+	UPROPERTY(EditEnywhere);
+	TMap<FName, class USkeletalMeshComponent*> m_Meshes;
+	FTimerHandle m_scrapSpawnTimer;
 };
