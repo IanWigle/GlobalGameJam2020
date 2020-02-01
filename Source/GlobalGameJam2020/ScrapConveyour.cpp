@@ -110,7 +110,7 @@ void AScrapConveyour::OnFurnaceOverlapBegin(UPrimitiveComponent* OverlappedComp,
 void AScrapConveyour::OnConveyourOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	ABaseObject* scrap = Cast<ABaseObject>(OtherActor);
-	if (scrap)
+	if (scrap && !scrap->m_BeingHeld)
 	{
 		scrap->m_Mesh->SetSimulatePhysics(false);
 		m_scrapOnConveyour.Add(scrap);
@@ -123,7 +123,7 @@ void AScrapConveyour::OnConveyourOverlapEnd(UPrimitiveComponent* OverlappedComp,
 	if (scrap)
 	{
 		scrap->m_Mesh->SetSimulatePhysics(true);
-		Cast<UPrimitiveComponent>(scrap->GetRootComponent())->AddForce(m_conveyourCollider->GetForwardVector() * 1000);
+		//Cast<UPrimitiveComponent>(scrap->GetRootComponent())->AddForce(m_conveyourCollider->GetForwardVector() * 1000);
 		m_scrapOnConveyourToRemove.Add(scrap);
 	}
 }
