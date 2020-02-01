@@ -16,24 +16,35 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	UFUNCTION()
 		void OnFurnaceOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-	void AddBaseObjectToPool();
+	void AddBaseObjectToPool(class ABaseObject* a_scrap);
 	void DropBaseObjectFromPool();
 protected:
 	virtual void BeginPlay() override;
 
-	//UPROPERTY(EditAnywhere);
+	UPROPERTY(EditAnywhere)
 	int m_poolSize;
-	//UPROPERTY(EditAnywhere);
+	UPROPERTY(EditAnywhere)
 	float m_dropDelay;
-	//UPROPERTY(EditAnywhere);
+	UPROPERTY(EditAnywhere)
 	FName m_scrapMeshesFolder;
 	TArray<class USkeletalMesh*> m_scrapMeshes;
 	TSubclassOf<class ABaseObject> m_scrapTemplate;
-	//UPROPERTY(EditAnywhere);
+	UPROPERTY(EditAnywhere)
 	TArray<class ABaseObject*> m_scrapPool;
-	//UPROPERTY(EditAnywhere);
-	TMap<FName, class UBoxComponent*> m_colliders;
-	//UPROPERTY(EditAnywhere);
-	TMap<FName, class USkeletalMeshComponent*> m_Meshes;
+
+	UPROPERTY(EditAnywhere)
+		class UBoxComponent* m_furnaceCollider;
+	UPROPERTY(EditAnywhere)
+		class UBoxComponent* m_dropCollider;
+	UPROPERTY(EditAnywhere)
+		class UBoxComponent* m_conveyourCollider;
+
+	UPROPERTY(EditAnywhere)
+		class USkeletalMeshComponent* m_furnaceMesh;
+	UPROPERTY(EditAnywhere)
+		class USkeletalMeshComponent* m_dropMesh;
+	UPROPERTY(EditAnywhere)
+		class USkeletalMeshComponent* m_conveyourMesh;
+
 	FTimerHandle m_scrapSpawnTimer;
 };
