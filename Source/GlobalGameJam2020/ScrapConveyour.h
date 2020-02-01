@@ -21,19 +21,19 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditEnywhere);
+	//UPROPERTY(EditAnywhere);
 	int m_poolSize;
-	UPROPERTY(EditEnywhere);
+	//UPROPERTY(EditAnywhere);
 	float m_dropDelay;
-	UPROPERTY(EditEnywhere);
+	//UPROPERTY(EditAnywhere);
 	FName m_scrapMeshesFolder;
 	TArray<class USkeletalMesh*> m_scrapMeshes;
 	TSubclassOf<class ABaseObject> m_scrapTemplate;
-	UPROPERTY(EditEnywhere);
+	//UPROPERTY(EditAnywhere);
 	TArray<class ABaseObject*> m_scrapPool;
-	UPROPERTY(EditEnywhere);
+	//UPROPERTY(EditAnywhere);
 	TMap<FName, class UBoxComponent*> m_colliders;
-	UPROPERTY(EditEnywhere);
+	//UPROPERTY(EditAnywhere);
 	TMap<FName, class USkeletalMeshComponent*> m_Meshes;
 	FTimerHandle m_scrapSpawnTimer;
 };

@@ -18,16 +18,16 @@ AScrapConveyour::AScrapConveyour()
 	//Component initialization
 	UBoxComponent* box = CreateDefaultSubobject<UBoxComponent>("Furnace Trigger");
 	m_colliders.Add("Furnace Trigger", box);
-	UBoxComponent* box = CreateDefaultSubobject<UBoxComponent>("Drop Trigger");
+	box = CreateDefaultSubobject<UBoxComponent>("Drop Trigger");
 	m_colliders.Add("Drop Trigger", box);
-	UBoxComponent* box = CreateDefaultSubobject<UBoxComponent>("Coveyour Trigger");
+	box = CreateDefaultSubobject<UBoxComponent>("Coveyour Trigger");
 	m_colliders.Add("Coveyour Trigger", box);
 
 	USkeletalMeshComponent* mesh = CreateDefaultSubobject<USkeletalMeshComponent>("Furnace Mesh");
 	m_Meshes.Add("Furnace Mesh", mesh);
-	USkeletalMeshComponent* mesh = CreateDefaultSubobject<USkeletalMeshComponent>("Drop Mesh");
+	mesh = CreateDefaultSubobject<USkeletalMeshComponent>("Drop Mesh");
 	m_Meshes.Add("Drop Mesh", mesh);
-	USkeletalMeshComponent* mesh = CreateDefaultSubobject<USkeletalMeshComponent>("Conveyour Mesh");
+	mesh = CreateDefaultSubobject<USkeletalMeshComponent>("Conveyour Mesh");
 	m_Meshes.Add("Conveyour Mesh", mesh);
 }
 
@@ -43,7 +43,7 @@ void AScrapConveyour::BeginPlay()
 		GetWorld()->SpawnActor<ABaseObject>(m_scrapTemplate, m_colliders["Drop Trigger"]->GetComponentLocation(), FRotator(), spawnParams);
 	}
 	//timer to start spawning scraps
-	GetWorld()->GetTimerManager().SetTimer(m_scrapSpawnTimer, this, AScrapConveyour::DropBaseObjectFromPool, m_dropDelay, false, m_dropDelay);
+	GetWorld()->GetTimerManager().SetTimer(m_scrapSpawnTimer, this, &AScrapConveyour::DropBaseObjectFromPool, m_dropDelay, false, m_dropDelay);
 }
 
 // Called every frame
@@ -69,7 +69,7 @@ void AScrapConveyour::DropBaseObjectFromPool()
 	//Remove from the TArray if there are any objects in it
 	ABaseObject* scrap = m_scrapPool.Pop();
 	//Position the object
-	scrap->TeleportTo(m_colliders["Drop Trigger"]->GetComponentLocation(), );
+	//scrap->TeleportTo(m_colliders["Drop Trigger"]->GetComponentLocation(), );
 	//Switch its mesh
 	//Enable mesh, collision and physics
 }
