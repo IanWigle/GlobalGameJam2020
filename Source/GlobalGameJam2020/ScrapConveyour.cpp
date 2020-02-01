@@ -134,6 +134,7 @@ void AScrapConveyour::AddBaseObjectToPool(ABaseObject* a_scrap)
 	m_scrapPool.Add(a_scrap);
 	//disable mesh, collision and physics
 	a_scrap->DisableObject();
+	a_scrap->TeleportTo(FVector::ZeroVector, FRotator());
 }
 
 void AScrapConveyour::DropBaseObjectFromPool()
