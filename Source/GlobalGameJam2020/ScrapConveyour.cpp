@@ -110,7 +110,7 @@ void AScrapConveyour::OnFurnaceOverlapBegin(UPrimitiveComponent* OverlappedComp,
 void AScrapConveyour::OnConveyourOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	ABaseObject* scrap = Cast<ABaseObject>(OtherActor);
-	if (scrap)
+	if (scrap && !scrap->m_BeingHeld)
 	{
 		scrap->m_Mesh->SetSimulatePhysics(false);
 		m_scrapOnConveyour.Add(scrap);
@@ -123,7 +123,7 @@ void AScrapConveyour::OnConveyourOverlapEnd(UPrimitiveComponent* OverlappedComp,
 	if (scrap)
 	{
 		scrap->m_Mesh->SetSimulatePhysics(true);
-		Cast<UPrimitiveComponent>(scrap->GetRootComponent())->AddForce(m_conveyourCollider->GetForwardVector() * 1000);
+		//Cast<UPrimitiveComponent>(scrap->GetRootComponent())->AddForce(m_conveyourCollider->GetForwardVector() * 1000);
 		m_scrapOnConveyourToRemove.Add(scrap);
 	}
 }
@@ -148,8 +148,9 @@ void AScrapConveyour::DropBaseObjectFromPool()
 		//Switch its mesh
 		if (m_scrapMeshes.Num() > 0)
 		{
-			scrap->m_Mesh->SetSkeletalMesh(m_scrapMeshes[FMath::RandRange(0, m_scrapMeshes.Num() - 1)].m_mesh);
-			scrap->m_Mesh->SetPhysicsAsset(m_scrapMeshes[FMath::RandRange(0, m_scrapMeshes.Num() - 1)].m_meshPhysics);
+			int index = FMath::RandRange(0, m_scrapMeshes.Num() - 1);
+			scrap->m_Mesh->SetSkeletalMesh(m_scrapMeshes[index].m_mesh);
+			scrap->m_Mesh->SetPhysicsAsset(m_scrapMeshes[index].m_meshPhysics);
 		}
 		//Enable mesh, collision and physics
 		scrap->EnableObject();
