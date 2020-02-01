@@ -14,12 +14,12 @@ class GLOBALGAMEJAM2020_API ABaseObject : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ABaseObject();
-
+	void ReturnToPool(class AScrapConveyour* a_Conveyour);
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	void ReturnToPool();
+
 
 	FTimerHandle FadeTimer;
 

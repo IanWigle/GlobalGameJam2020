@@ -28,11 +28,16 @@ void ABaseObject::BeginPlay()
 	
 }
 
-void ABaseObject::ReturnToPool()
+void ABaseObject::ReturnToPool(AScrapConveyour* a_Conveyour)
 {
 	if (m_Conveyour)
 	{
-		m_Conveyour->AddBaseObjectToPool();
+		m_Conveyour->AddBaseObjectToPool(this);
+	}
+	else
+	{
+		m_Conveyour = a_Conveyour;
+		m_Conveyour->AddBaseObjectToPool(this);
 	}
 
 	DisableObject();
@@ -43,18 +48,18 @@ void ABaseObject::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (m_BeingHeld == false && m_InStand == false)
-	{
-		if (IsFading() == false)
-		{
-			GetWorld()->GetTimerManager().SetTimer(FadeTimer, this, &ABaseObject::ReturnToPool, m_TimeToFade,false);
-		}
-	}
+	//if (m_BeingHeld == false && m_InStand == false)
+	//{
+	//	if (IsFading() == false)
+	//	{
+	//		GetWorld()->GetTimerManager().SetTimer(FadeTimer, this, &ABaseObject::ReturnToPool, m_TimeToFade,false);
+	//	}
+	//}
 
-	if (IsFading() && m_PrintFadeTimeRemaining)
-	{
-		GEngine->AddOnScreenDebugMessage(-1,5.0f, FColor::Purple, FString::Printf(TEXT("%f"),FadeTimeRemaining()));
-	}
+	//if (IsFading() && m_PrintFadeTimeRemaining)
+	//{
+	//	GEngine->AddOnScreenDebugMessage(-1,5.0f, FColor::Purple, FString::Printf(TEXT("%f"),FadeTimeRemaining()));
+	//}
 
 	
 }

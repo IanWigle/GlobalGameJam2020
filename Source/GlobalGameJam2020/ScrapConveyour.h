@@ -28,6 +28,7 @@ protected:
 	UPROPERTY(EditAnywhere)
 	FName m_scrapMeshesFolder;
 	TArray<class USkeletalMesh*> m_scrapMeshes;
+	UPROPERTY(EditAnywhere)
 	TSubclassOf<class ABaseObject> m_scrapTemplate;
 	UPROPERTY(EditAnywhere)
 	TArray<class ABaseObject*> m_scrapPool;

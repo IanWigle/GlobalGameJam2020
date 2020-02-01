@@ -19,25 +19,28 @@ AScrapConveyour::AScrapConveyour()
 	//Colliders
 	//Conveyour
 	m_conveyourCollider = CreateDefaultSubobject<UBoxComponent>("Coveyour Collider");
-	m_conveyourCollider->SetCollisionProfileName("PhysicsObject");
+	m_conveyourCollider->SetCollisionProfileName("PhysicsActor");
 	m_conveyourCollider->SetSimulatePhysics(false);
 	m_conveyourCollider->SetupAttachment(RootComponent);
 
 	//Furnace
 	m_furnaceCollider = CreateDefaultSubobject<UBoxComponent>("Furnace Trigger");
 	m_furnaceCollider->SetCollisionProfileName("OverlapAllDynamic");
+	m_furnaceCollider->SetGenerateOverlapEvents(true);
 	m_furnaceCollider->SetSimulatePhysics(false);
 	m_furnaceCollider->SetupAttachment(RootComponent);
+	m_furnaceCollider->OnComponentBeginOverlap.AddDynamic(this, &AScrapConveyour::OnFurnaceOverlapBegin);
 
 	//Drop
 	m_dropCollider = CreateDefaultSubobject<UBoxComponent>("Drop Trigger");
 	m_dropCollider->SetCollisionProfileName("OverlapAllDynamic");
+	m_dropCollider->SetGenerateOverlapEvents(true);
 	m_dropCollider->SetSimulatePhysics(false);
 	m_dropCollider->SetupAttachment(RootComponent);
 
 	//Meshes
 	//Conveyour
-	m_conveyourMesh = CreateDefaultSubobject<USkeletalMeshComponent>("Conveyour");
+	m_conveyourMesh = CreateDefaultSubobject<USkeletalMeshComponent>("Conveyour Mesh");
 	m_conveyourMesh->SetCollisionProfileName("NoCollision");
 	m_conveyourMesh->SetSimulatePhysics(false);
 	m_conveyourMesh->SetupAttachment(m_conveyourCollider);
@@ -71,7 +74,7 @@ void AScrapConveyour::BeginPlay()
 
 	}
 	//timer to start spawning scraps
-	GetWorld()->GetTimerManager().SetTimer(m_scrapSpawnTimer, this, &AScrapConveyour::DropBaseObjectFromPool, m_dropDelay, false, m_dropDelay);
+	GetWorld()->GetTimerManager().SetTimer(m_scrapSpawnTimer, this, &AScrapConveyour::DropBaseObjectFromPool, m_dropDelay, true, m_dropDelay);
 }
 
 // Called every frame
@@ -87,7 +90,7 @@ void AScrapConveyour::OnFurnaceOverlapBegin(UPrimitiveComponent* OverlappedComp,
 	ABaseObject* scrap = Cast<ABaseObject>(OtherActor);
 	if (scrap)
 	{
-		//scrap->ReturnToPool(this);
+		scrap->ReturnToPool(this);
 	}
 }
 
@@ -96,7 +99,7 @@ void AScrapConveyour::AddBaseObjectToPool(ABaseObject* a_scrap)
 	//Add to the TArray
 	m_scrapPool.Add(a_scrap);
 	//disable mesh, collision and physics
-	//a_scrap->Activate();
+	a_scrap->DisableObject();
 }
 
 void AScrapConveyour::DropBaseObjectFromPool()
@@ -113,7 +116,7 @@ void AScrapConveyour::DropBaseObjectFromPool()
 			scrap->m_Mesh->SetSkeletalMesh(m_scrapMeshes[FMath::RandRange(0, m_scrapMeshes.Num() - 1)]);
 		}
 		//Enable mesh, collision and physics
-		//scrap->Activate();
+		scrap->EnableObject();
 	}
 }
 
