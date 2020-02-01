@@ -122,7 +122,11 @@ void AScrapConveyour::OnConveyourOverlapEnd(UPrimitiveComponent* OverlappedComp,
 	ABaseObject* scrap = Cast<ABaseObject>(OtherActor);
 	if (scrap)
 	{
-		scrap->m_Mesh->SetSimulatePhysics(true);
+		if (!scrap->m_BeingHeld)
+		{
+			scrap->m_Mesh->SetSimulatePhysics(true);
+		}
+
 		//Cast<UPrimitiveComponent>(scrap->GetRootComponent())->AddForce(m_conveyourCollider->GetForwardVector() * 1000);
 		m_scrapOnConveyourToRemove.Add(scrap);
 	}
