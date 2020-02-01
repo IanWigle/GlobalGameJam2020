@@ -2,7 +2,10 @@
 
 
 #include "BaseObject.h"
+#include <EngineGlobals.h>
 #include "Components/SkeletalMeshComponent.h"
+#include "../ScrapConveyour.h"
+#include "Engine/Engine.h"
 
 // Sets default values
 ABaseObject::ABaseObject()
@@ -25,10 +28,69 @@ void ABaseObject::BeginPlay()
 	
 }
 
+void ABaseObject::ReturnToPool()
+{
+	if (m_Conveyour)
+	{
+		m_Conveyour->AddBaseObjectToPool();
+	}
+
+	DisableObject();
+}
+
 // Called every frame
 void ABaseObject::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (m_BeingHeld == false && m_InStand == false)
+	{
+		if (IsFading() == false)
+		{
+			GetWorld()->GetTimerManager().SetTimer(FadeTimer, this, &ABaseObject::ReturnToPool, m_TimeToFade,false);
+		}
+	}
+
+	if (IsFading() && m_PrintFadeTimeRemaining)
+	{
+		GEngine->AddOnScreenDebugMessage(-1,5.0f, FColor::Purple, FString::Printf(TEXT("%f"),FadeTimeRemaining()));
+	}
+
+	
+}
+
+void ABaseObject::DisableObject()
+{
+	m_Mesh->SetSimulatePhysics(false);
+	m_Mesh->SetGenerateOverlapEvents(false);
+	m_Mesh->SetHiddenInGame(true, true);
+}
+
+void ABaseObject::EnableObject()
+{
+	m_Mesh->SetSimulatePhysics(true);
+	m_Mesh->SetGenerateOverlapEvents(true);
+	RootComponent->SetHiddenInGame(false, true);
+}
+
+bool ABaseObject::IsFading()
+{
+	return GetWorld()->GetTimerManager().IsTimerActive(FadeTimer);
+}
+
+float ABaseObject::FadeTimeRemaining()
+{
+	if (GetWorld()->GetTimerManager().IsTimerActive(FadeTimer))
+		return GetWorld()->GetTimerManager().GetTimerRemaining(FadeTimer);
+
+	return 0.0f;
+}
+
+void ABaseObject::StopFade()
+{
+	if (IsFading())
+	{
+		GetWorld()->GetTimerManager().ClearTimer(FadeTimer);
+	}
 }
 
