@@ -90,15 +90,49 @@ void ABaseObject::StopFade()
 void ABaseObject::Weld()
 {
 	// = > function that when called causes the object to check who is being overlapped and then attach itself to the closest base object that is "Rooted" then sets itself to be rooted
+	TArray<AActor*> overlappingActors;
+	m_Mesh->GetOverlappingActors(overlappingActors, ABaseObject::StaticClass());
+	ABaseObject* closestRootedScrap = nullptr;
+	for (AActor* actor : overlappingActors)
+	{
+		if (actor->ActorHasTag("Scrap"))
+		{
+			ABaseObject* scrap = Cast<ABaseObject>(actor);
+			if (scrap && scrap->ObjectIsRooted())
+			{
+				if (!closestRootedScrap)
+				{
+					closestRootedScrap = scrap;
+				}
+				else
+				{
+					float oldDistance = FVector::Dist(GetActorLocation(), closestRootedScrap->GetActorLocation());
+					float newDistance = FVector::Dist(GetActorLocation(), scrap->GetActorLocation());
+					if (newDistance < oldDistance)
+					{
+						closestRootedScrap = scrap;
+					}
+				}
+			}
+		}
+	}
+	AttachToActor(closestRootedScrap, FAttachmentTransformRules::KeepWorldTransform);
+	m_isAttached = true;
 }
 
 void ABaseObject::Cut()
 {
-	// = > Fucntion that detaches itself from all actors then sets "rooted to false"
+	DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+	m_isAttached = false;
 }
 
 void ABaseObject::Clean()
 {
 	// = > Fucntion that switches materials from a dirty to a clean material from the scrapStruct(streach goal at this point)
+}
+
+bool ABaseObject::ObjectIsRooted()
+{
+	return false;
 }
 
