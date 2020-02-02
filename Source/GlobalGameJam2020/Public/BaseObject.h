@@ -42,7 +42,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class AScrapConveyour* m_Conveyour;
 
-	FScrapMeshData* m_currentScrapMeshData;
+	//FScrapMeshData* m_currentScrapMeshData;
 
 	UFUNCTION(BlueprintCallable)
 		void DisableObject();

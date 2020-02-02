@@ -103,6 +103,10 @@ void AScrapConveyour::OnFurnaceOverlapBegin(UPrimitiveComponent* OverlappedComp,
 	ABaseObject* scrap = Cast<ABaseObject>(OtherActor);
 	if (scrap)
 	{
+		if (!scrap->ActorHasTag("Scrap"))
+		{
+			return;
+		}
 		scrap->ReturnToPool(this);
 	}
 }
@@ -112,6 +116,10 @@ void AScrapConveyour::OnConveyourOverlapBegin(UPrimitiveComponent* OverlappedCom
 	ABaseObject* scrap = Cast<ABaseObject>(OtherActor);
 	if (scrap && !scrap->m_BeingHeld)
 	{
+		if (!scrap->ActorHasTag("Scrap"))
+		{
+			return;
+		}
 		scrap->m_Mesh->SetSimulatePhysics(false);
 		m_scrapOnConveyour.Add(scrap);
 	}
@@ -122,6 +130,10 @@ void AScrapConveyour::OnConveyourOverlapEnd(UPrimitiveComponent* OverlappedComp,
 	ABaseObject* scrap = Cast<ABaseObject>(OtherActor);
 	if (scrap)
 	{
+		if (!scrap->ActorHasTag("Scrap"))
+		{
+			return;
+		}
 		if (!scrap->m_BeingHeld)
 		{
 			scrap->m_Mesh->SetSimulatePhysics(true);

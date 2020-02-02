@@ -19,6 +19,7 @@ ABaseObject::ABaseObject()
 	SetRootComponent(m_Mesh);
 
 	Tags.Add("Interactable");
+	Tags.Add("Scrap");
 }
 
 // Called when the game starts or when spawned
