@@ -23,7 +23,7 @@ AScrapConveyour::AScrapConveyour()
 	m_conveyourCollider = CreateDefaultSubobject<UBoxComponent>("Coveyour Collider");
 	m_conveyourCollider->SetCollisionProfileName("OverlapAllDynamic");
 	m_conveyourCollider->SetSimulatePhysics(false);
-	m_conveyourCollider->SetupAttachment(RootComponent);
+	RootComponent = m_conveyourCollider;
 	m_conveyourCollider->OnComponentBeginOverlap.AddDynamic(this, &AScrapConveyour::OnConveyourOverlapBegin);
 	m_conveyourCollider->OnComponentEndOverlap.AddDynamic(this, &AScrapConveyour::OnConveyourOverlapEnd);
 
