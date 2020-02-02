@@ -47,21 +47,6 @@ void ABaseObject::ReturnToPool(AScrapConveyour* a_Conveyour)
 void ABaseObject::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	//if (m_BeingHeld == false && m_InStand == false)
-	//{
-	//	if (IsFading() == false)
-	//	{
-	//		GetWorld()->GetTimerManager().SetTimer(FadeTimer, this, &ABaseObject::ReturnToPool, m_TimeToFade,false);
-	//	}
-	//}
-
-	//if (IsFading() && m_PrintFadeTimeRemaining)
-	//{
-	//	GEngine->AddOnScreenDebugMessage(-1,5.0f, FColor::Purple, FString::Printf(TEXT("%f"),FadeTimeRemaining()));
-	//}
-
-	
 }
 
 void ABaseObject::DisableObject()
@@ -99,5 +84,20 @@ void ABaseObject::StopFade()
 	{
 		GetWorld()->GetTimerManager().ClearTimer(FadeTimer);
 	}
+}
+
+void ABaseObject::Weld()
+{
+	// = > function that when called causes the object to check who is being overlapped and then attach itself to the closest base object that is "Rooted" then sets itself to be rooted
+}
+
+void ABaseObject::Cut()
+{
+	// = > Fucntion that detaches itself from all actors then sets "rooted to false"
+}
+
+void ABaseObject::Clean()
+{
+	// = > Fucntion that switches materials from a dirty to a clean material from the scrapStruct(streach goal at this point)
 }
 

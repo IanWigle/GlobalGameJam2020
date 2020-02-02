@@ -23,6 +23,8 @@ protected:
 
 	FTimerHandle FadeTimer;
 
+
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -40,6 +42,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class AScrapConveyour* m_Conveyour;
 
+	FScrapMeshData* m_currentScrapMeshData;
+
 	UFUNCTION(BlueprintCallable)
 		void DisableObject();
 
@@ -54,4 +58,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		void StopFade();
+
+	void Weld();
+	void Cut();
+	void Clean();
 };
