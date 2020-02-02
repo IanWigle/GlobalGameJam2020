@@ -75,10 +75,10 @@
 				},
 				{
 					"mode": "button",
-					"path": "/user/hand/right/input/b",
+					"path": "/user/hand/left/input/a",
 					"inputs":
 					{
-						"click":
+						"touch":
 						{
 							"output": "/actions/main/in/ForcePull"
 						}
@@ -89,7 +89,7 @@
 					"path": "/user/hand/left/input/b",
 					"inputs":
 					{
-						"click":
+						"touch":
 						{
 							"output": "/actions/main/in/ForcePull"
 						}
