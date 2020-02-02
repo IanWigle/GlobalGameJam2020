@@ -59,7 +59,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void StopFade();
 
+	bool m_isAttached;
+
 	void Weld();
 	void Cut();
 	void Clean();
+	bool ObjectIsRooted();
 };
